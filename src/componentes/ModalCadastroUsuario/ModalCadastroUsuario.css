@@ -1,15 +1,15 @@
-.corpoModalCadastro {
-    display: flex;
-    align-items: center;
-    padding-top: 32px;
+.corpo-modal {
+  display: flex;
+  align-items: center;
+  padding-top: 32px;
 }
 
-.corpoModalCadastro form {
-    width: 500px;
-    max-width: 100%;
+.corpo-modal form {
+  width: 500px;
+  max-width: 100%;
 }
 
-.corpoModalCadastro form .acoes {
-    margin-top: 48px;
-    text-align: center;
+.corpo-modal footer {
+  margin-top: 40px;
+  text-align: center;
 }
