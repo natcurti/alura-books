@@ -1,5 +1,5 @@
 import { AbBotao, AbCampoTexto, AbModal } from "ds-alurabooks";
-import imageForm from "./assets/login.png";
+import imageForm from "../../assets/login.png";
 import { useState } from "react";
 import "./ModalCadastroUsuario.css";
 import axios from "axios";
