@@ -2,7 +2,7 @@ import { AbBotao, AbCampoTexto, AbModal } from "ds-alurabooks";
 import imageForm from "../../assets/login.png";
 import { useState } from "react";
 import "./ModalCadastroUsuario.css";
-import axios from "axios";
+import http from "../../http";
 
 interface IModalCadastroUsuario {
   aberta: boolean;
@@ -29,8 +29,8 @@ const ModalCadastroUsuario = ({ aberta, aoFechar }: IModalCadastroUsuario) => {
       complemento,
     };
 
-    axios
-      .post("http://localhost:8000/public/registrar", usuario)
+    http
+      .post("/public/registrar", usuario)
       .then(() => {
         alert("Usuário cadastrado");
         setNome("");

@@ -3,8 +3,8 @@ import { useState } from "react";
 import "./ModalLoginUsuario.css";
 import imageLogin from "../../assets/login.png";
 import "./ModalLoginUsuario.css";
-import axios from "axios";
 import { usePersistirToken } from "../../hooks/sessionStorageToken";
+import http from "../../http";
 
 interface PropsModalLoginUsuario {
   aberta: boolean;
@@ -28,8 +28,8 @@ const ModalLoginUsuario = ({
       email,
       senha,
     };
-    axios
-      .post("http://localhost:8000/public/login", usuario)
+    http
+      .post("/public/login", usuario)
       .then((response) => {
         persistirToken(response.data.access_token);
         setEmail("");

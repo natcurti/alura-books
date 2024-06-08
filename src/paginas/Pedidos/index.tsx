@@ -1,9 +1,9 @@
 import { AbBotao } from "ds-alurabooks";
 import "./Pedidos.css";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useObterToken } from "../../hooks/sessionStorageToken";
 import { IPedido } from "../../interfaces/IPedido";
+import http from "../../http";
 
 const Pedidos = () => {
   const [pedidos, setPedidos] = useState<IPedido[]>([]);
@@ -14,15 +14,10 @@ const Pedidos = () => {
   });
 
   useEffect(() => {
-    axios
-      .get<IPedido[]>("http://localhost:8000/pedidos", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    http
+      .get<IPedido[]>("/pedidos")
       .then((response) => {
         setPedidos(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -30,8 +25,8 @@ const Pedidos = () => {
   }, [token]);
 
   const excluirPedido = (id: number) => {
-    axios
-      .delete(`http://localhost:8000/pedidos/${id}`, {
+    http
+      .delete(`/pedidos/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
