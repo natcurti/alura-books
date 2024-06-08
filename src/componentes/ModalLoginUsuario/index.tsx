@@ -34,7 +34,7 @@ const ModalLoginUsuario = ({
         persistirToken(response.data.access_token);
         setEmail("");
         setSenha("");
-        aoFechar();
+        aoEfetuarLogin();
       })
       .catch((error) => {
         if (error?.response?.data?.message) {
@@ -69,7 +69,7 @@ const ModalLoginUsuario = ({
             type="password"
           />
           <div className="acoes">
-            <AbBotao texto="Fazer login" onClick={aoEfetuarLogin} />
+            <AbBotao texto="Fazer login" />
           </div>
         </form>
       </section>

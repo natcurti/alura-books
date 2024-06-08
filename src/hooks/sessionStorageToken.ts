@@ -1,5 +1,6 @@
 export const usePersistirToken = () => {
   return (token: string) => {
+    console.log(token);
     sessionStorage.setItem("token", token);
   };
 };
