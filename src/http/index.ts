@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { history } from "../App";
 import { useObterToken } from "../hooks/sessionStorageToken";
 import { ICategoria } from "../interfaces/ICategoria";
+import { ILivro } from "../interfaces/ILivro";
 
 const http = axios.create({
   baseURL: "http://localhost:8000",
@@ -48,4 +49,9 @@ export const obterCategoria = async (slug: string) => {
   });
 
   return response.data[0];
+};
+
+export const obterLivrosDestaque = async (tipo: string) => {
+  const resposta = await http.get<ILivro[]>(`public/${tipo}`);
+  return resposta.data;
 };

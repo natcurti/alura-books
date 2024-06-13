@@ -4,14 +4,11 @@ import { useEffect, useState } from "react";
 import { useObterToken } from "../../hooks/sessionStorageToken";
 import { IPedido } from "../../interfaces/IPedido";
 import http from "../../http";
+import { formatador } from "../../utils/formatador-moeda";
 
 const Pedidos = () => {
   const [pedidos, setPedidos] = useState<IPedido[]>([]);
   const token = useObterToken();
-  const formatador = Intl.NumberFormat("pt-br", {
-    style: "currency",
-    currency: "BRL",
-  });
 
   useEffect(() => {
     http
