@@ -55,3 +55,13 @@ export const obterLivrosDestaque = async (tipo: string) => {
   const resposta = await http.get<ILivro[]>(`public/${tipo}`);
   return resposta.data;
 };
+
+export const obterLivros = async (categoria: ICategoria) => {
+  const response = await http.get<ILivro[]>("/livros", {
+    params: {
+      categoria: categoria.id,
+    },
+  });
+
+  return response.data;
+};
