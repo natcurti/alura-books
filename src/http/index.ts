@@ -3,6 +3,7 @@ import { history } from "../App";
 import { useObterToken } from "../hooks/sessionStorageToken";
 import { ICategoria } from "../interfaces/ICategoria";
 import { ILivro } from "../interfaces/ILivro";
+import { IAutor } from "../interfaces/IAutor";
 
 const http = axios.create({
   baseURL: "http://localhost:8000",
@@ -64,4 +65,25 @@ export const obterLivros = async (categoria: ICategoria) => {
   });
 
   return response.data;
+};
+
+export const obterDetalhesLivro = async (slug: string) => {
+  const response = await http.get<ILivro[]>("/livros", {
+    params: {
+      slug,
+    },
+  });
+  if (response.data.length === 0) {
+    return null;
+  }
+  return response.data[0];
+};
+
+export const obterAutor = async (autorId: number) => {
+  try {
+    const resposta = await http.get<IAutor>(`autores/${autorId}`);
+    return resposta.data;
+  } catch (error) {
+    console.log("Não foi possivel obter o autor!");
+  }
 };

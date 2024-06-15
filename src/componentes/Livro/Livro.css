@@ -1,0 +1,52 @@
+.container {
+  max-width: 70%;
+  margin: 104px auto;
+}
+
+.container__detalhes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.opcoes {
+  display: flex;
+}
+
+.titulo {
+  margin: 0;
+  color: #002f52;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.descricao {
+  font-weight: 500;
+  font-size: 16px;
+  margin: 16px 0;
+}
+
+.autor {
+  font-size: 14px;
+}
+
+.container__opcoes {
+  margin-top: 32px;
+}
+
+.container__opcoes-titulo {
+  color: #002f52;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.container__opcoes strong {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.container__buttons {
+  margin-top: 48px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
