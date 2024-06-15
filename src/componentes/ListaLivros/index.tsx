@@ -13,6 +13,7 @@ const ListaLivros = ({ categoria }: ListaLivrosProps) => {
     queryKey: ["buscarLivrosDaCategoria", categoria],
     queryFn: () => obterLivros(categoria),
   });
+
   return (
     <section className="livros">
       {livros?.map((livro) => (

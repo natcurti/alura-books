@@ -1,5 +1,9 @@
-
 .home form.buscar {
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.container__lancamentos,
+.container__mais-vendidos {
+  text-align: center;
 }

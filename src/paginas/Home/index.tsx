@@ -9,15 +9,26 @@ import { useQuery } from "@tanstack/react-query";
 
 import "./Home.css";
 import { obterLivrosDestaque } from "../../http";
+import Loader from "../../componentes/Loader";
+import { ILivro } from "../../interfaces/ILivro";
+import { AxiosError } from "axios";
 
 const Home = () => {
   const [busca, setBusca] = useState("");
 
-  const { data: lancamentos } = useQuery({
+  const {
+    data: lancamentos,
+    isLoading: isLoadingDestaques,
+    error: errorDestaque,
+  } = useQuery<ILivro[] | null, AxiosError>({
     queryKey: ["destaques"],
     queryFn: () => obterLivrosDestaque("lancamentos"),
   });
-  const { data: maisVendidos } = useQuery({
+  const {
+    data: maisVendidos,
+    isLoading: isLoadingMaisVendidos,
+    error: errorMaisVendidos,
+  } = useQuery<ILivro[] | null, AxiosError>({
     queryKey: ["maisVendidos"],
     queryFn: () => obterLivrosDestaque("mais-vendidos"),
   });
@@ -38,10 +49,23 @@ const Home = () => {
           />
         </form>
       </Banner>
+
       <Titulo texto="ÚLTIMOS LANÇAMENTOS" />
-      <LivrosDestaque livros={lancamentos ?? []} />
+      <div className="container__lancamentos">
+        {isLoadingDestaques && <Loader />}
+        {lancamentos === null && <p>Não encontramos os últimos lançamentos.</p>}
+        {errorDestaque && <p>{errorDestaque.message}</p>}
+      </div>
+      {lancamentos && <LivrosDestaque livros={lancamentos!} />}
+
       <Titulo texto="MAIS VENDIDOS" />
-      <LivrosDestaque livros={maisVendidos ?? []} />
+      <div className="container__mais-vendidos">
+        {isLoadingMaisVendidos && <Loader />}
+        {maisVendidos === null && <p>Não encontramos os mais vendidos.</p>}
+        {errorMaisVendidos && <p>{errorMaisVendidos.message}</p>}
+      </div>
+      {maisVendidos && <LivrosDestaque livros={maisVendidos!} />}
+
       <TagsCategorias />
       <Newsletter />
     </section>
