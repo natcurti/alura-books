@@ -4,11 +4,21 @@ import ModalCadastroUsuario from "../ModalCadastroUsuario";
 import logo from "./assets/logo.png";
 import usuario from "./assets/usuario.svg";
 import "./BarraNavegacao.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalLoginUsuario from "../ModalLoginUsuario";
 import { useLimparToken, useObterToken } from "../../hooks/sessionStorageToken";
 import { ICategoria } from "../../interfaces/ICategoria";
-import http from "../../http";
+import { gql, useQuery } from "@apollo/client";
+
+const OBTER_CATEGORIAS = gql`
+  query ObterCategorias {
+    categorias {
+      id
+      nome
+      slug
+    }
+  }
+`;
 
 const BarraNavegacao = () => {
   const [modalCadastroAberta, setModalCadastroAberta] = useState(false);
@@ -17,13 +27,8 @@ const BarraNavegacao = () => {
   const token = useObterToken();
   const removerToken = useLimparToken();
   const [usuarioLogado, setUsuarioLogado] = useState<boolean>(token != null);
-  const [categorias, setCategorias] = useState<ICategoria[]>([]);
 
-  useEffect(() => {
-    http
-      .get<ICategoria[]>("/categorias")
-      .then((response) => setCategorias(response.data));
-  }, []);
+  const { data } = useQuery<{ categorias: ICategoria[] }>(OBTER_CATEGORIAS);
 
   const aoEfetuarLogin = () => {
     setModalLoginAberta(false);
@@ -47,7 +52,7 @@ const BarraNavegacao = () => {
         <li>
           <a href="#!">Categorias</a>
           <ul className="submenu">
-            {categorias.map((categoria) => (
+            {data?.categorias.map((categoria) => (
               <li key={categoria.id}>
                 <Link to={`/categorias/${categoria.slug}`}>
                   {categoria.nome}
