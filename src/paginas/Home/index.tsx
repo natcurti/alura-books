@@ -5,33 +5,18 @@ import LivrosDestaque from "../../componentes/LivrosDestaque";
 import Newsletter from "../../componentes/Newsletter";
 import TagsCategorias from "../../componentes/TagsCategorias";
 import Titulo from "../../componentes/Titulo";
-import { useQuery } from "@tanstack/react-query";
-
 import "./Home.css";
-import { obterLivrosDestaque } from "../../http";
-import Loader from "../../componentes/Loader";
-import { ILivro } from "../../interfaces/ILivro";
-import { AxiosError } from "axios";
+import { useLancamentos } from "../../graphql/lancamentos/hooks";
+import { useMaisVendidos } from "../../graphql/mais-vendidos/hooks";
 
 const Home = () => {
   const [busca, setBusca] = useState("");
 
-  const {
-    data: lancamentos,
-    isLoading: isLoadingDestaques,
-    error: errorDestaque,
-  } = useQuery<ILivro[] | null, AxiosError>({
-    queryKey: ["destaques"],
-    queryFn: () => obterLivrosDestaque("lancamentos"),
-  });
-  const {
-    data: maisVendidos,
-    isLoading: isLoadingMaisVendidos,
-    error: errorMaisVendidos,
-  } = useQuery<ILivro[] | null, AxiosError>({
-    queryKey: ["maisVendidos"],
-    queryFn: () => obterLivrosDestaque("mais-vendidos"),
-  });
+  const { data: dataLancamentos } = useLancamentos();
+  const { data: dataMaisVendidos } = useMaisVendidos();
+
+  const lancamentos = dataLancamentos?.destaques?.lancamentos;
+  const maisVendidos = dataMaisVendidos?.destaques?.maisVendidos;
 
   return (
     <section className="home">
@@ -52,19 +37,15 @@ const Home = () => {
 
       <Titulo texto="ÚLTIMOS LANÇAMENTOS" />
       <div className="container__lancamentos">
-        {isLoadingDestaques && <Loader />}
         {lancamentos === null && <p>Não encontramos os últimos lançamentos.</p>}
-        {errorDestaque && <p>{errorDestaque.message}</p>}
       </div>
-      {lancamentos && <LivrosDestaque livros={lancamentos!} />}
+      <LivrosDestaque livros={lancamentos ?? []} />
 
       <Titulo texto="MAIS VENDIDOS" />
       <div className="container__mais-vendidos">
-        {isLoadingMaisVendidos && <Loader />}
         {maisVendidos === null && <p>Não encontramos os mais vendidos.</p>}
-        {errorMaisVendidos && <p>{errorMaisVendidos.message}</p>}
       </div>
-      {maisVendidos && <LivrosDestaque livros={maisVendidos!} />}
+      <LivrosDestaque livros={maisVendidos ?? []} />
 
       <TagsCategorias />
       <Newsletter />

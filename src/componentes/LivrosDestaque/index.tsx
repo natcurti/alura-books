@@ -29,7 +29,7 @@ const LivrosDestaque = ({ livros }: LivrosDestaqueProps) => {
           {livros.map((livro) => {
             return (
               <li
-                key={livro.titulo}
+                key={livro.id}
                 onClick={() => selecionarLivro(livro)}
                 className={
                   selecionado?.titulo === livro.titulo ? "selecionado" : ""
@@ -52,7 +52,7 @@ const LivrosDestaque = ({ livros }: LivrosDestaqueProps) => {
             </header>
             <h6>{selecionado?.titulo}</h6>
             <p>{selecionado?.descricao}</p>
-            <p>Por: {selecionado?.autor}</p>
+            <p>Por: {selecionado?.autor?.nome}</p>
             <footer>
               <div className="preco">
                 <em>A partir de:</em>

@@ -26,10 +26,10 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
       }))
     : [];
 
-  const { data: autor, error } = useQuery({
-    queryKey: ["buscarAutor", livroSelecionado.autor],
-    queryFn: () => obterAutor(livroSelecionado.autor),
-  });
+  // const { data: autor, error } = useQuery({
+  //   queryKey: ["buscarAutor", livroSelecionado.autor],
+  //   queryFn: () => obterAutor(livroSelecionado.autor),
+  // });
 
   return (
     <section className="container">
@@ -43,11 +43,11 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
         <div>
           <h3 className="titulo">{livroSelecionado.titulo}</h3>
           <p className="descricao">{livroSelecionado.descricao}</p>
-          <p className="autor">
+          {/* <p className="autor">
             {error
               ? "Não foi possível encontrar o autor"
               : `Por: ${autor!.nome}`}
-          </p>
+          </p> */}
           <div className="container__opcoes">
             <p className="container__opcoes-titulo">
               Selecione o formato do seu livro:
@@ -67,14 +67,14 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         {error ? (
           "Não foi possível encontrar o autor"
         ) : (
           <SobreAutor detalhesDoAutor={autor!.sobre} />
         )}
         <BlocoSobre titulo="Sobre o livro" corpo={livroSelecionado.sobre} />
-      </div>
+      </div> */}
     </section>
   );
 };
