@@ -1,30 +1,20 @@
 import { useParams } from "react-router-dom";
 import TituloPrincipal from "../../componentes/TituloPrincipal";
 import Livro from "../../componentes/Livro";
-import { useQuery } from "@tanstack/react-query";
-import { obterDetalhesLivro } from "../../http";
-import { ILivro } from "../../interfaces/ILivro";
+import { useDetalhesDoLivro } from "../../graphql/detalhes-livro/hook";
 import Loader from "../../componentes/Loader";
 
 const DetalhesLivro = () => {
   const params = useParams();
 
-  const {
-    data: livro,
-    isLoading,
-    error,
-  } = useQuery<ILivro | null>({
-    queryKey: ["buscarDetalhesDoLivro"],
-    queryFn: () => obterDetalhesLivro(params.slug || ""),
-  });
+  const { data, loading, error } = useDetalhesDoLivro(params.slug || "");
 
   return (
     <>
       <TituloPrincipal texto="Detalhes do Livro" />
-      {isLoading && <Loader />}
-      {livro === null && <h3>Livro não encontrado!</h3>}
-      {error && <h3>Ops! Algum erro inesperado ocorreu. Tente novamente.</h3>}
-      {livro && <Livro livroSelecionado={livro!} />}
+      {loading && <Loader />}
+      {error && <h3>Erro inesperado</h3>}
+      {data?.livro && <Livro livroSelecionado={data.livro!} />}
     </>
   );
 };

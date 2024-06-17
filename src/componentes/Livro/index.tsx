@@ -3,14 +3,13 @@ import {
   AbGrupoOpcao,
   AbGrupoOpcoes,
   AbInputQuantidade,
+  AbTag,
 } from "ds-alurabooks";
 import { ILivro } from "../../interfaces/ILivro";
 import "./Livro.css";
 import { formatador } from "../../utils/formatador-moeda";
 import SobreAutor from "../SobreAutor";
 import BlocoSobre from "../BlocoSobre";
-import { useQuery } from "@tanstack/react-query";
-import { obterAutor } from "../../http";
 
 interface LivroProps {
   livroSelecionado: ILivro;
@@ -26,11 +25,6 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
       }))
     : [];
 
-  // const { data: autor, error } = useQuery({
-  //   queryKey: ["buscarAutor", livroSelecionado.autor],
-  //   queryFn: () => obterAutor(livroSelecionado.autor),
-  // });
-
   return (
     <section className="container">
       <div className="container__detalhes">
@@ -43,11 +37,7 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
         <div>
           <h3 className="titulo">{livroSelecionado.titulo}</h3>
           <p className="descricao">{livroSelecionado.descricao}</p>
-          {/* <p className="autor">
-            {error
-              ? "Não foi possível encontrar o autor"
-              : `Por: ${autor!.nome}`}
-          </p> */}
+          <p className="autor">Por: {livroSelecionado.autor.nome}</p>
           <div className="container__opcoes">
             <p className="container__opcoes-titulo">
               Selecione o formato do seu livro:
@@ -62,19 +52,20 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
             </p>
           </div>
           <div className="container__buttons">
-            <AbInputQuantidade />
+            <AbInputQuantidade onChange={() => {}} value={0} />
             <AbBotao texto="Comprar" />
           </div>
         </div>
       </div>
-      {/* <div>
-        {error ? (
-          "Não foi possível encontrar o autor"
-        ) : (
-          <SobreAutor detalhesDoAutor={autor!.sobre} />
-        )}
+      <div>
+        <SobreAutor detalhesDoAutor={livroSelecionado.autor.sobre} />
         <BlocoSobre titulo="Sobre o livro" corpo={livroSelecionado.sobre} />
-      </div> */}
+      </div>
+      <div className="tags">
+        {livroSelecionado.tags.map((tag) => (
+          <AbTag key={tag.id} texto={tag.nome} contexto="secundario" />
+        ))}
+      </div>
     </section>
   );
 };
