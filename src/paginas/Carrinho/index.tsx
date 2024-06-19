@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import TituloPrincipal from "../../componentes/TituloPrincipal";
 import { formatador } from "../../utils/formatador-moeda";
 import "./Carrinho.css";
-import { useCarrinho } from "../../graphql/carrinho/hook";
 import ItemCarrinho from "../../componentes/ItemCarrinho";
+import { useCarrinhoContext } from "../../context/carrinho";
 
 const Carrinho = () => {
-  const { data } = useCarrinho();
+  const { carrinho, adicionarItemCarrinho } = useCarrinhoContext();
 
   return (
     <section className="pagina-carrinho">
@@ -15,7 +15,7 @@ const Carrinho = () => {
       <div className="conteudo">
         <h4>Itens selecionados</h4>
         <div className="itens">
-          {data?.carrinho?.itens.map((item, index) => (
+          {carrinho?.itens.map((item, index) => (
             <ItemCarrinho key={index} item={item} />
           ))}
         </div>
@@ -26,7 +26,7 @@ const Carrinho = () => {
           <ul>
             <li>Total da compra</li>
             <li>
-              <strong>{formatador.format(data?.carrinho?.total || 0)}</strong>
+              <strong>{formatador.format(carrinho?.total || 0)}</strong>
             </li>
             <li>
               <AbBotao texto="Finalizar compra" />
