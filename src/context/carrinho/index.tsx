@@ -1,6 +1,6 @@
 import { ReactElement, createContext, useContext } from "react";
 import { ICarrinho } from "../../interfaces/ICarrinho";
-import { useCarrinho } from "../../graphql/carrinho/hook";
+import { useAddItens, useCarrinho } from "../../graphql/carrinho/hooks";
 import { IItemCarrinho } from "../../interfaces/IItemCarrinho";
 
 export interface ICarrinhoContext {
@@ -19,7 +19,18 @@ interface CarrinhoProviderProps {
 const CarrinhoProvider = ({ children }: CarrinhoProviderProps) => {
   const { data } = useCarrinho();
 
+  const [adicionaItem] = useAddItens();
+
   const adicionarItemCarrinho = (item: IItemCarrinho) => {
+    adicionaItem({
+      variables: {
+        item: {
+          livroId: item.livro.id,
+          opcaoCompraId: item.opcaoCompra.id,
+          quantidade: item.quantidade,
+        },
+      },
+    });
     console.log(item);
   };
 

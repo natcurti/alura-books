@@ -7,7 +7,7 @@ import ItemCarrinho from "../../componentes/ItemCarrinho";
 import { useCarrinhoContext } from "../../context/carrinho";
 
 const Carrinho = () => {
-  const { carrinho, adicionarItemCarrinho } = useCarrinhoContext();
+  const { carrinho } = useCarrinhoContext();
 
   return (
     <section className="pagina-carrinho">

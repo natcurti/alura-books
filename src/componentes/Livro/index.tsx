@@ -10,12 +10,17 @@ import "./Livro.css";
 import { formatador } from "../../utils/formatador-moeda";
 import SobreAutor from "../SobreAutor";
 import BlocoSobre from "../BlocoSobre";
+import { useState } from "react";
+import { useCarrinhoContext } from "../../context/carrinho";
 
 interface LivroProps {
   livroSelecionado: ILivro;
 }
 
 const Livro = ({ livroSelecionado }: LivroProps) => {
+  const [quantidade, setQuantidade] = useState(1);
+  const [opcaoSelecionada, setOpcaoSelecionada] = useState<AbGrupoOpcao>();
+
   const opcoesDeCompra: AbGrupoOpcao[] = livroSelecionado.opcoesCompra
     ? livroSelecionado.opcoesCompra.map((opcao) => ({
         id: opcao.id,
@@ -24,6 +29,24 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
         rodape: opcao.formatos ? opcao.formatos.join(",") : "",
       }))
     : [];
+
+  const { adicionarItemCarrinho } = useCarrinhoContext();
+
+  const addItemNoCarrinho = () => {
+    if (!opcaoSelecionada) {
+      alert("Por favor selecione uma opção de compra!");
+      return;
+    }
+    const opcaoCompraSelecionada = livroSelecionado.opcoesCompra.find(
+      (option) => option.id === opcaoSelecionada.id
+    );
+
+    adicionarItemCarrinho({
+      livro: livroSelecionado,
+      quantidade: quantidade,
+      opcaoCompra: opcaoCompraSelecionada!,
+    });
+  };
 
   return (
     <section className="container">
@@ -43,7 +66,11 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
               Selecione o formato do seu livro:
             </p>
             <div className="opcoes">
-              <AbGrupoOpcoes opcoes={opcoesDeCompra} />
+              <AbGrupoOpcoes
+                opcoes={opcoesDeCompra}
+                onChange={setOpcaoSelecionada}
+                valorPadrao={opcaoSelecionada}
+              />
             </div>
             <p>
               <strong>
@@ -52,8 +79,8 @@ const Livro = ({ livroSelecionado }: LivroProps) => {
             </p>
           </div>
           <div className="container__buttons">
-            <AbInputQuantidade onChange={() => {}} value={0} />
-            <AbBotao texto="Comprar" />
+            <AbInputQuantidade onChange={setQuantidade} value={quantidade} />
+            <AbBotao texto="Comprar" onClick={addItemNoCarrinho} />
           </div>
         </div>
       </div>
