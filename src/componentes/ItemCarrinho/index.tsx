@@ -3,12 +3,34 @@ import lixeira from "../../assets/lixeira.png";
 import "./ItemCarrinho.css";
 import { IItemCarrinho } from "../../interfaces/IItemCarrinho";
 import { formatador } from "../../utils/formatador-moeda";
+import { useCarrinhoContext } from "../../context/carrinho";
 
 interface ItemCarrinhoProps {
   item: IItemCarrinho;
 }
 
 const ItemCarrinho = ({ item }: ItemCarrinhoProps) => {
+  const { adicionarItemCarrinho, removerItemCarrinho } = useCarrinhoContext();
+
+  const removerItem = () => {
+    removerItemCarrinho({
+      livro: item.livro,
+      opcaoCompra: item.opcaoCompra,
+      quantidade: item.quantidade,
+    });
+  };
+
+  const alterarQuantidadeItem = (quantidade: number) => {
+    if (quantidade === 0) {
+      removerItem();
+    }
+    adicionarItemCarrinho({
+      livro: item.livro,
+      opcaoCompra: item.opcaoCompra,
+      quantidade: quantidade,
+    });
+  };
+
   return (
     <div className="item-carrinho">
       <figure>
@@ -32,11 +54,11 @@ const ItemCarrinho = ({ item }: ItemCarrinhoProps) => {
       <div className="quantidade">
         <AbInputQuantidade
           value={item.quantidade}
-          onChange={() => console.log("[AbInputQuantidade] - onChange")}
+          onChange={alterarQuantidadeItem}
         />
       </div>
       <div>
-        <button className="btn-excluir">
+        <button className="btn-excluir" onClick={removerItem}>
           <img src={lixeira} alt="Ícone de uma lixeira" />
         </button>
       </div>
