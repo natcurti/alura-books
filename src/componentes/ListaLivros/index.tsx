@@ -23,11 +23,11 @@ const ListaLivros = ({ categoria }: ListaLivrosProps) => {
 
   filtroDeLivrosVar({
     ...filtroDeLivrosVar(),
-    categoria: categoria,
+    categoria,
   });
-  useLivros();
 
   const livros = useReactiveVar(livrosVar);
+  useLivros();
 
   return (
     <section>
