@@ -21,10 +21,12 @@ const ListaLivros = ({ categoria }: ListaLivrosProps) => {
     });
   }, [busca]);
 
-  filtroDeLivrosVar({
-    ...filtroDeLivrosVar(),
-    categoria,
-  });
+  useEffect(() => {
+    filtroDeLivrosVar({
+      ...filtroDeLivrosVar(),
+      categoria,
+    });
+  }, [categoria]);
 
   const livros = useReactiveVar(livrosVar);
   useLivros();
